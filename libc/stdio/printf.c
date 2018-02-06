@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static bool print(const char* data, size_t length) {
@@ -61,7 +62,7 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
-		}/* else if (*format == 'd') {
+		} else if (*format == 'd') {
 			format++;
 			int i = va_arg(parameters, int);
 			char c[256] = "";
@@ -72,7 +73,7 @@ int printf(const char* restrict format, ...) {
 			if (!print(c, len))
 				return -1;
 			written += len;
-		} */else {
+		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
