@@ -5,6 +5,9 @@
 
 #include <kernel/tty.h>
 #include <arch/i386/vga.h>
+#include <asm/asmio.h>
+
+#define PORT 0x3f8
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
@@ -54,13 +57,26 @@ void terminal_newline()
 }
 
 void terminal_write(const char* data, size_t size) {
+	log_write(data, size);
 	for (size_t i = 0; i < size; i++)
+	{
 		if (data[i] == '\n')
 			terminal_newline();
 		else
 			terminal_putchar(data[i]);
+	}		
+}
+
+void log_write(const char* data, size_t size){
+	for (size_t i = 0; i < size; i++)
+	{
+		outb(PORT, data[i]);
+	}
 }
 
 void terminal_writestring(const char* data) {
-	terminal_write(data, strlen(data));
+	size_t data_len = strlen(data);
+	terminal_write(data, data_len);
+	outb(PORT, 'A');
+	log_write(data, data_len);
 }

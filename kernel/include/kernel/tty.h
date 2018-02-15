@@ -8,5 +8,6 @@ void terminal_initialize(enum vga_color text_color, enum vga_color background_co
 void terminal_putchar(char c);
 void terminal_write(const char* data, size_t size);
 void terminal_writestring(const char* data);
+void log_write(const char* data, size_t size);
 
 #endif
